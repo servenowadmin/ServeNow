@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 const LandingPage = () => {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
@@ -32,5 +31,4 @@ const LandingPage = () => {
     </div>
   );
 };
-
 export default LandingPage;
