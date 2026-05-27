@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+motor
+stripe
+python-dotenv
+pydantic
+email-validator
