@@ -4,6 +4,8 @@ import LandingPage from './pages/LandingPage';
 import PostJob from './pages/PostJob';
 import AdminDashboard from './pages/AdminDashboard';
 import Marketplace from './pages/Marketplace';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/post-job" element={<PostJob />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </Router>
   );
