@@ -3,5 +3,7 @@ uvicorn
 motor
 stripe
 python-dotenv
-pydantic
-email-validator
+pydantic[email]
+bcrypt
+pyjwt
+python-multipart
