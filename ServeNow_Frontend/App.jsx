@@ -23,3 +23,5 @@ function App() {
 }
 
 export default App;
+import CustomerDashboard from './pages/CustomerDashboard';
+<Route path="/dashboard/customer" element={<CustomerDashboard />} />
