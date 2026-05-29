@@ -6,6 +6,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import Marketplace from './pages/Marketplace';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import CustomerDashboard from './pages/CustomerDashboard';
+import ProviderDashboard from './pages/ProviderDashboard';
 
 function App() {
   return (
@@ -17,11 +19,11 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/dashboard/customer" element={<CustomerDashboard />} />
+        <Route path="/dashboard/provider" element={<ProviderDashboard />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-import CustomerDashboard from './pages/CustomerDashboard';
-<Route path="/dashboard/customer" element={<CustomerDashboard />} />
