@@ -336,4 +336,168 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="bg-gray-50 rounded-xl p-4 mb-6">
-                    <div className="text-sm font-bold te
+                    <div className="text-sm font-bold text-gray-700 mb-2">Dispute Summary:</div>
+                    <p className="text-gray-600 text-sm">{dispute.issue}</p>
+                  </div>
+                  <div className="flex space-x-4">
+                    <button className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl transition">
+                      ✅ Release Funds to Provider
+                    </button>
+                    <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-xl transition">
+                      🔄 Refund Customer
+                    </button>
+                    <button className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-black py-3 rounded-xl transition">
+                      ✂️ Split 50/50
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* REVENUE TAB */}
+        {activeTab === 'revenue' && (
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 mb-8">Revenue Dashboard</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-emerald-600 text-white rounded-2xl p-6">
+                <div className="text-emerald-200 text-sm font-bold mb-2">Total Revenue (All Time)</div>
+                <div className="text-4xl font-black">$0.00</div>
+              </div>
+              <div className="bg-white border border-gray-100 rounded-2xl p-6">
+                <div className="text-gray-500 text-sm font-bold mb-2">This Month</div>
+                <div className="text-4xl font-black text-gray-900">$0.00</div>
+              </div>
+              <div className="bg-white border border-gray-100 rounded-2xl p-6">
+                <div className="text-gray-500 text-sm font-bold mb-2">Pending Escrow</div>
+                <div className="text-4xl font-black text-yellow-600">$0.00</div>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100">
+                <h3 className="font-black text-gray-900">Revenue by Stream</h3>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {revenueStreams.map(stream => (
+                  <div key={stream.name} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                    <div className="flex items-center space-x-4">
+                      <span className="text-2xl">{stream.icon}</span>
+                      <div>
+                        <div className="font-bold text-gray-900">{stream.name}</div>
+                        <div className="text-xs text-gray-400">{stream.desc}</div>
+                      </div>
+                    </div>
+                    <div className="font-black text-emerald-600 text-lg">{stream.amount}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CONTENT TAB */}
+        {activeTab === 'content' && (
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 mb-8">Edit Site Content</h1>
+            {savedMessage && (
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl mb-6 font-bold">
+                {savedMessage}
+              </div>
+            )}
+            <div className="grid grid-cols-1 gap-6">
+              <div className="bg-white rounded-2xl border border-gray-100 p-8">
+                <h3 className="text-lg font-black text-gray-900 mb-6">🦸 Hero Section</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Main Headline</label>
+                    <input
+                      type="text"
+                      value={heroText}
+                      onChange={e => setHeroText(e.target.value)}
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Subheadline</label>
+                    <textarea
+                      value={heroSub}
+                      onChange={e => setHeroSub(e.target.value)}
+                      rows={3}
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl border border-gray-100 p-8">
+                <h3 className="text-lg font-black text-gray-900 mb-6">💰 Platform Settings</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Commission Rate (%)</label>
+                    <input type="number" defaultValue="20" className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Pro Plan Price ($/mo)</label>
+                    <input type="number" defaultValue="19" className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Elite Plan Price ($/mo)</label>
+                    <input type="number" defaultValue="49" className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">Dispute Window (hours)</label>
+                    <input type="number" defaultValue="24" className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={handleSaveContent}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl transition text-lg"
+              >
+                💾 Save All Changes
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* SETTINGS TAB */}
+        {activeTab === 'settings' && (
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 mb-8">API & Integration Settings</h1>
+            <div className="space-y-6">
+              {[
+                { name: 'Stripe Secret Key', placeholder: 'sk_live_...', icon: '💳', desc: 'Required for payments and escrow' },
+                { name: 'MongoDB Connection URL', placeholder: 'mongodb+srv://...', icon: '🗄️', desc: 'Required for database storage' },
+                { name: 'Cloudinary Cloud Name', placeholder: 'your-cloud-name', icon: '☁️', desc: 'Required for photo/ID uploads' },
+                { name: 'Cloudinary API Key', placeholder: 'your-api-key', icon: '🔑', desc: 'Required for photo/ID uploads' },
+                { name: 'JWT Secret Key', placeholder: 'your-secret-key-min-32-chars', icon: '🔒', desc: 'Required for user authentication' },
+                { name: 'Admin Email', placeholder: 'servenowadmin@gmail.com', icon: '📧', desc: 'Receives platform notifications' },
+              ].map(setting => (
+                <div key={setting.name} className="bg-white rounded-2xl border border-gray-100 p-6">
+                  <div className="flex items-start space-x-4">
+                    <span className="text-3xl">{setting.icon}</span>
+                    <div className="flex-1">
+                      <label className="block text-sm font-black text-gray-900 mb-1">{setting.name}</label>
+                      <p className="text-xs text-gray-400 mb-3">{setting.desc}</p>
+                      <input
+                        type="password"
+                        placeholder={setting.placeholder}
+                        className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition font-mono text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl transition text-lg">
+                💾 Save API Settings
+              </button>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard;
