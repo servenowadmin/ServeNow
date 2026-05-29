@@ -5,6 +5,7 @@ const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
     if (!form.email || !form.password) {
@@ -42,7 +43,9 @@ const Login = () => {
 
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Email Address
+              </label>
               <input
                 type="email"
                 placeholder="you@example.com"
@@ -51,18 +54,32 @@ const Login = () => {
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
               />
             </div>
+
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-bold text-gray-700">Password</label>
-                <a href="#" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">Forgot password?</a>
+                <label className="block text-sm font-bold text-gray-700">
+                  Password
+                </label>
+                <a href="#" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+                  Forgot password?
+                </a>
               </div>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={form.password}
-                onChange={e => setForm({ ...form, password: e.target.value })}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={form.password}
+                  onChange={e => setForm({ ...form, password: e.target.value })}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition text-lg"
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
             </div>
 
             <button
@@ -76,9 +93,9 @@ const Login = () => {
 
           <div className="mt-6 text-center">
             <p className="text-gray-500 text-sm">
-              Don't have an account?{' '}
+              New to Serve Now?{' '}
               <Link to="/signup" className="text-emerald-600 font-bold hover:text-emerald-700">
-                Create one free
+                Create a Free Account
               </Link>
             </p>
           </div>
