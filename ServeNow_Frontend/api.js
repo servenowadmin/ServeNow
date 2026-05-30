@@ -126,8 +126,18 @@ const api = {
   },
 // USER PROFILE
   getUser: async (email) => {
-    const res = await fetch(${BASE_URL}/api/users/${email});
+    const res = await fetch(`${BASE_URL}/api/users/${email}`);
     return res.json();
+  },
+
+  updateUser: async (email, profileData) => {
+    const res = await fetch(`${BASE_URL}/api/users/${email}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profileData),
+    });
+    return res.json();
+  },
   },
 
   updateUser: async (email, profileData) => {
