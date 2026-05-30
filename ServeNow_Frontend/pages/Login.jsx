@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import api, { saveToken } from '../api';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!form.email || !form.password) {
@@ -14,10 +16,24 @@ const Login = () => {
     }
     setLoading(true);
     setError('');
-    setTimeout(() => {
-      setLoading(false);
-      setError('Backend not connected yet. Coming soon!');
-    }, 1000);
+    try {
+      const data = await api.login(form.email, form.password);
+      if (data.token) {
+        saveToken(data.token, data.role, data.email, data.firstName);
+        if (data.role === 'admin') navigate('/admin');
+        else if (data.role === 'provider') navigate('/dashboard/provider');
+        else navigate('/dashboard/customer');
+      } else {
+        setError(data.detail || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      setError('Cannot connect to server. Please try again.');
+    }
+    setLoading(false);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') handleSubmit();
   };
 
   return (
@@ -33,36 +49,28 @@ const Login = () => {
           <h1 className="text-3xl font-black text-gray-900 mb-2">Welcome Back</h1>
           <p className="text-gray-500">Sign in to your account</p>
         </div>
-
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm font-medium">
               {error}
             </div>
           )}
-
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
-                Email Address
-              </label>
+              <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
               <input
                 type="email"
                 placeholder="you@example.com"
                 value={form.email}
                 onChange={e => setForm({ ...form, email: e.target.value })}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                onKeyPress={handleKeyPress}
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
               />
             </div>
-
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-bold text-gray-700">
-                  Password
-                </label>
-                <a href="#" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
-                  Forgot password?
-                </a>
+                <label className="block text-sm font-bold text-gray-700">Password</label>
+                <a href="#" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">Forgot password?</a>
               </div>
               <div className="relative">
                 <input
@@ -70,7 +78,8 @@ const Login = () => {
                   placeholder="••••••••"
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                  onKeyPress={handleKeyPress}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                 />
                 <button
                   type="button"
@@ -81,7 +90,6 @@ const Login = () => {
                 </button>
               </div>
             </div>
-
             <button
               onClick={handleSubmit}
               disabled={loading}
@@ -90,7 +98,6 @@ const Login = () => {
               {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </div>
-
           <div className="mt-6 text-center">
             <p className="text-gray-500 text-sm">
               New to Serve Now?{' '}
@@ -100,11 +107,8 @@ const Login = () => {
             </p>
           </div>
         </div>
-
         <div className="mt-6 text-center">
-          <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm transition">
-            ← Back to Home
-          </Link>
+          <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm transition">← Back to Home</Link>
         </div>
       </div>
     </div>
