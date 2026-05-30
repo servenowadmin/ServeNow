@@ -138,7 +138,7 @@ const api = {
     });
     return res.json();
   },
-  },
+  
 
   updateUser: async (email, profileData) => {
     const res = await fetch(${BASE_URL}/api/users/${email}, {
