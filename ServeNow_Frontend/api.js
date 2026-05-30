@@ -124,7 +124,20 @@ const api = {
     });
     return res.json();
   },
+// USER PROFILE
+  getUser: async (email) => {
+    const res = await fetch(${BASE_URL}/api/users/${email});
+    return res.json();
+  },
 
+  updateUser: async (email, profileData) => {
+    const res = await fetch(${BASE_URL}/api/users/${email}, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profileData),
+    });
+    return res.json();
+  },
   // REVIEWS
   submitReview: async (jobId, reviewerEmail, providerEmail, rating, comment) => {
     const res = await fetch(`${BASE_URL}/api/reviews`, {
