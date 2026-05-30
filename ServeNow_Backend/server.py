@@ -345,7 +345,27 @@ async def submit_review(job_id: str, reviewer_email: str, provider_email: str, r
         avg = sum(r["rating"] for r in reviews) / len(reviews)
         await db.users.update_one({"email": provider_email}, {"$set": {"rating": round(avg, 1)}})
     return {"message": "Review submitted!"}
+# --- USER PROFILE ---
+class ProfileUpdate(BaseModel):
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    phone: Optional[str] = None
+    zip: Optional[str] = None
+    city: Optional[str] = None
 
+@app.get("/api/users/{email}")
+async def get_user(email: str):
+    user = await db.users.find_one({"email": email}, {"password": 0})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    return fix_id(user)
+
+@app.put("/api/users/{email}")
+async def update_user(email: str, profile: ProfileUpdate):
+    updates = {k: v for k, v in profile.dict().items() if v is not None}
+    await db.users.update_one({"email": email}, {"$set": updates})
+    user = await db.users.find_one({"email": email}, {"password": 0})
+    return fix_id(user)
 @app.get("/")
 async def root():
     return {"message": "Serve Now API is running!", "version": "1.0.0"}
